@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hvor mye skatt bør du sette av i enkeltpersonforetak? Kalkulator og guide</title>
+<meta name="description" content="Enkel kalkulator og guide: hvor mye av inntekten i enkeltpersonforetak bør du sette av til skatt og MVA hver måned? Unngå skattesmellen som tar de fleste nye ENK.">
+<link rel="canonical" href="https://haierr1.github.io/verktoy/skatteavsetning/">
+<style>
+:root{--brand:#0f766e;--ink:#1e293b;--muted:#64748b;--bg:#f8fafc}
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65}
+main{max-width:720px;margin:0 auto;padding:48px 20px 80px}
+h1{font-size:1.9rem;line-height:1.25;margin-bottom:.75rem}
+h2{font-size:1.3rem;margin:2rem 0 .6rem}
+p{margin:.7rem 0}
+.lead{font-size:1.05rem;color:var(--muted)}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:22px 24px;margin:1.2rem 0}
+label{display:block;font-weight:600;font-size:.92rem;margin:.9rem 0 .25rem}
+input{width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:1rem}
+.hint{font-size:.8rem;color:var(--muted)}
+.result{background:#0f766e;color:#fff;border-radius:12px;padding:22px 24px;margin:1.2rem 0}
+.result strong{font-size:1.6rem}
+a{color:var(--brand)}
+ul{padding-left:1.3rem}
+li{margin:.35rem 0}
+footer{margin-top:3rem;font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<h1>Hvor mye skatt bør du sette av i enkeltpersonforetak?</h1>
+<p class="lead">Den vanligste økonomiske feilen i nye ENK: pengene kommer inn på konto, kjennes som lønn, og brukes — helt til forskuddsskatten og MVA-terminen forfaller samtidig. Regelen er enkel: sett av en fast andel av <em>hver eneste faktura</em> samme dag den betales.</p>
+
+<div class="card">
+<label for="inn">Fakturert beløp eks. mva (kr)</label>
+<input id="inn" type="number" value="50000" min="0">
+<label for="sk">Skatteavsetning (%)</label>
+<input id="sk" type="number" value="35" min="0" max="60">
+<span class="hint">Tommelfingerregel for mange: 30–40 %. Din reelle sats avhenger av samlet inntekt, fradrag og trygdeavgift — sjekk skattekalkulatoren på skatteetaten.no.</span>
+<label for="mva">MVA-sats på fakturaen (%)</label>
+<input id="mva" type="number" value="25" min="0" max="25">
+<span class="hint">0 hvis du ikke er MVA-registrert (under 50 000 kr omsetning — sjekk gjeldende grense).</span>
+</div>
+
+<div class="result" id="res" aria-live="polite"></div>
+
+<h2>Hvorfor både skatt og MVA?</h2>
+<ul>
+<li><strong>MVA-en er aldri dine penger.</strong> De 25 % du legger på fakturaen krever staten tilbake ved neste termin (<a href="/verktoy/mva-terminer/">se terminkalenderen</a>).</li>
+<li><strong>Skatten trekkes ikke automatisk.</strong> Som ENK betaler du forskuddsskatt fire ganger i året, beregnet av deg selv. Ingen arbeidsgiver ordner det.</li>
+<li><strong>Trygdeavgiften er høyere enn for lønnsmottakere</strong> — en grunn til å ikke sette av for lite.</li>
+</ul>
+
+<h2>Gjør det automatisk</h2>
+<p>Egen bankkonto for avsetning + fast prosent per innbetaling er hele systemet. Vil du ha regnestykket ferdig oppsatt måned for måned, med MVA fordelt på terminene? Det er nøyaktig det <a href="https://buy.polar.sh/polar_cl_51KJUJU0SdlxVWPgWiSGsEAAtvAm8PXgVzEkT1Ny4y6"><strong>Frilans-pakken (€25)</strong></a> gjør — pluss kontantstrøm og timeføring.</p>
+
+<h2>Flere gratis verktøy</h2>
+<p>📄 <a href="/fakturamal/">Gratis fakturamal</a> · 🧮 <a href="/verktoy/timepris/">Timepris-kalkulator</a> · 📅 <a href="/verktoy/mva-terminer/">MVA-terminer og frister</a></p>
+
+<footer><p>Forenklet verktøy, ikke skatterådgivning. Kontroller alltid din situasjon mot <a href="https://www.skatteetaten.no" rel="nofollow">skatteetaten.no</a>.</p></footer>
+</main>
+<script>
+(function(){
+function n(id){return parseFloat(document.getElementById(id).value)||0}
+function f(x){return Math.round(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g," ")}
+function calc(){
+var inn=n("inn"),sk=n("sk")/100,mva=n("mva")/100;
+var mvaKr=inn*mva, skattKr=inn*sk, brutto=inn+mvaKr, behold=inn-skattKr;
+document.getElementById("res").innerHTML=
+ "Av innbetalingen på "+f(brutto)+" kr bør du sette av <strong>"+f(mvaKr+skattKr)+" kr</strong><br>"+
+ "<span style='opacity:.85'>MVA: "+f(mvaKr)+" kr (statens penger) · Skatt: "+f(skattKr)+" kr · Igjen til deg/drift: "+f(behold)+" kr</span>";
+}
+["inn","sk","mva"].forEach(function(i){document.getElementById(i).addEventListener("input",calc)});
+calc();
+})();
+</script>
+</body>
+</html>
