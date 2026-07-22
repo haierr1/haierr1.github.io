@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://haierr1.github.io/sitemap.xml
