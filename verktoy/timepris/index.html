@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Timepris-kalkulator for frilansere og ENK – hva bør du ta i timen?</title>
+<meta name="description" content="Regn ut hvilken timepris du bør ta som frilanser med enkeltpersonforetak. Tar høyde for skatt, feriepenger-tilsvarende, pensjon og ikke-fakturerbar tid.">
+<link rel="canonical" href="https://haierr1.github.io/verktoy/timepris/">
+<style>
+:root{--brand:#0f766e;--ink:#1e293b;--muted:#64748b;--bg:#f8fafc}
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65}
+main{max-width:720px;margin:0 auto;padding:48px 20px 80px}
+h1{font-size:1.9rem;line-height:1.25;margin-bottom:.75rem}
+h2{font-size:1.3rem;margin:2rem 0 .6rem}
+p{margin:.7rem 0}
+.lead{font-size:1.05rem;color:var(--muted)}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:22px 24px;margin:1.2rem 0}
+label{display:block;font-weight:600;font-size:.92rem;margin:.9rem 0 .25rem}
+input{width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:1rem}
+.hint{font-size:.8rem;color:var(--muted)}
+.result{background:#0f766e;color:#fff;border-radius:12px;padding:22px 24px;margin:1.2rem 0}
+.result strong{font-size:1.9rem}
+.note{font-size:.85rem;color:var(--muted)}
+a{color:var(--brand)}
+footer{margin-top:3rem;font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<h1>Timepris-kalkulator for frilansere (ENK)</h1>
+<p class="lead">Hva må du egentlig ta i timen for å sitte igjen med lønna du ønsker? Som selvstendig skal timeprisen dekke mye mer enn «lønn»: skatt, ferie uten feriepenger, pensjon du må spare selv, og all tiden som ikke kan faktureres.</p>
+
+<div class="card">
+<label for="lonn">Ønsket «lønn» utbetalt per måned (kr)</label>
+<input id="lonn" type="number" value="45000" min="0">
+<label for="timer">Fakturerbare timer per uke</label>
+<input id="timer" type="number" value="25" min="1" max="60">
+<span class="hint">De fleste frilansere fakturerer 20–30 av ukas timer — resten går til salg, admin og tomgang.</span>
+<label for="ferie">Uker ferie/fri per år</label>
+<input id="ferie" type="number" value="6" min="0" max="20">
+<label for="skatt">Avsetning til skatt (%)</label>
+<input id="skatt" type="number" value="35" min="0" max="60">
+<span class="hint">Avhenger av din situasjon — sjekk skatteetaten.no. Tallet er redigerbart.</span>
+<label for="pensjon">Egen pensjonssparing (% av lønn)</label>
+<input id="pensjon" type="number" value="5" min="0" max="30">
+<label for="kost">Faste kostnader per måned (kr) — utstyr, programvare, forsikring, regnskap</label>
+<input id="kost" type="number" value="3000" min="0">
+</div>
+
+<div class="result" id="res" aria-live="polite"></div>
+
+<h2>Slik regner kalkulatoren</h2>
+<p>Årlig behov = (ønsket lønn + pensjon) ÷ (1 − skattesats) × 12 + kostnader. Dette deles på fakturerbare timer per år (timer/uke × (52 − ferieuker)). Alle forutsetninger er redigerbare — modellen er bevisst enkel og tar ikke høyde for alt (f.eks. sykdom, trygdeavgift-detaljer, minstefradrag).</p>
+
+<h2>Flere gratis verktøy for ENK</h2>
+<p>📄 <a href="/fakturamal/">Gratis fakturamal</a> · 📅 <a href="/verktoy/mva-terminer/">MVA-terminkalender med frister</a></p>
+<p>Vil du ha hele økonomioversikten — skatteavsetning per måned, kontantstrøm og timeføring som blir til fakturagrunnlag? <a href="https://buy.polar.sh/polar_cl_51KJUJU0SdlxVWPgWiSGsEAAtvAm8PXgVzEkT1Ny4y6"><strong>Se Frilans-pakken (€25)</strong></a>.</p>
+
+<footer><p>Verktøyet gir et forenklet estimat og er ikke skatte- eller økonomirådgivning. Kontroller satser og regler mot <a href="https://www.skatteetaten.no" rel="nofollow">skatteetaten.no</a>.</p></footer>
+</main>
+<script>
+(function(){
+var ids=["lonn","timer","ferie","skatt","pensjon","kost"];
+function num(id){return parseFloat(document.getElementById(id).value)||0}
+function fmt(n){return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g," ")}
+function calc(){
+  var lonn=num("lonn"),timer=num("timer"),ferie=num("ferie"),skatt=num("skatt")/100,pensjon=num("pensjon")/100,kost=num("kost");
+  var uker=Math.max(1,52-ferie), timerAar=Math.max(1,timer*uker);
+  if(skatt>=1){skatt=0.99}
+  var brutto=((lonn*(1+pensjon))/(1-skatt))*12 + kost*12;
+  var pris=brutto/timerAar;
+  document.getElementById("res").innerHTML=
+   "Anbefalt timepris (eks. mva): <strong>"+fmt(pris)+" kr</strong><br>"+
+   "<span style='opacity:.85'>Basert på "+fmt(timerAar)+" fakturerbare timer/år og "+fmt(brutto)+" kr årlig omsetningsbehov. Husk å legge til 25 % mva på fakturaen der det gjelder.</span>";
+}
+ids.forEach(function(id){document.getElementById(id).addEventListener("input",calc)});
+calc();
+})();
+</script>
+</body>
+</html>
