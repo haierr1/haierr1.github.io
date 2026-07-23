@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GDPR checklist for SaaS (2026) — what you actually need before launch</title>
+<meta name="description" content="A practical GDPR compliance checklist for SaaS founders: lawful bases, privacy policy, cookie consent that blocks scripts, DPAs, data retention, and user rights — without the legalese.">
+<link rel="canonical" href="https://haierr1.github.io/guides/gdpr-saas-checklist/">
+<style>
+:root{--brand:#4f46e5;--ink:#1e293b;--muted:#64748b;--bg:#f8fafc}
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65}
+main{max-width:720px;margin:0 auto;padding:48px 20px 80px}
+h1{font-size:1.9rem;line-height:1.25;margin-bottom:.75rem}
+h2{font-size:1.3rem;margin:2rem 0 .6rem}
+p{margin:.7rem 0}
+.lead{font-size:1.05rem;color:var(--muted)}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;margin:1.2rem 0}
+ul{padding-left:1.3rem}
+li{margin:.5rem 0}
+a{color:var(--brand)}
+.check li{list-style:none;position:relative;padding-left:6px}
+.check li::before{content:"☐";position:absolute;left:-20px;color:var(--brand);font-size:1.05rem}
+.cta{display:inline-block;background:var(--brand);color:#fff;font-weight:600;padding:12px 22px;border-radius:10px;text-decoration:none;margin:.6rem 0}
+footer{margin-top:3rem;font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<h1>GDPR checklist for SaaS — what you actually need before launch</h1>
+<p class="lead">Not legal advice — a builder's checklist. GDPR work for a small SaaS is 90% predictable: the same six areas, the same documents, the same banner everyone postpones. Here's the list, in launch order.</p>
+
+<div class="card">
+<h2 style="margin-top:0">1. Know your data (30 min, do it first)</h2>
+<ul class="check">
+<li>List every category of personal data you touch: account data, billing, usage/events, logs/IP, support emails.</li>
+<li>For each: why you process it (this becomes your lawful basis) and how long you keep it (retention).</li>
+<li>List your processors: hosting, payments, email, analytics, support tooling.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2 style="margin-top:0">2. Lawful bases (Art. 6) — pick, don't improvise</h2>
+<ul class="check">
+<li><strong>Contract</strong> — providing and billing the service itself.</li>
+<li><strong>Legitimate interests</strong> — security, fraud prevention, product improvement (do the balancing note).</li>
+<li><strong>Consent</strong> — non-essential cookies, analytics, marketing. Withdrawable at any time.</li>
+<li><strong>Legal obligation</strong> — tax/accounting retention.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2 style="margin-top:0">3. The documents</h2>
+<ul class="check">
+<li>Privacy policy structured around: controller identity, data categories, lawful bases, retention, processors, transfers, user rights, complaint route to a supervisory authority.</li>
+<li>Cookie policy with an actual cookie table.</li>
+<li>DPAs signed with every processor (all major providers have standard ones).</li>
+<li>EU/EEA hosting or SCCs + supplementary measures for transfers.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2 style="margin-top:0">4. Cookie consent that actually complies</h2>
+<ul class="check">
+<li>Non-essential scripts must NOT run before opt-in — a banner that only <em>informs</em> is non-compliant.</li>
+<li>Reject must be as easy as accept. Granular categories. Choice persists and is revocable ("manage cookies" link).</li>
+</ul>
+<p>The standard trick: ship gated scripts as <code>type="text/plain" data-consent="analytics"</code> and re-insert them as real scripts only on consent. We open-sourced a ~170-line dependency-free implementation: <a href="https://github.com/haierr1/gdpr-cookie-banner">gdpr-cookie-banner</a>.</p>
+</div>
+
+<div class="card">
+<h2 style="margin-top:0">5. User rights — be ready before the first email</h2>
+<ul class="check">
+<li>Access, rectification, erasure, portability, restriction, objection — respond within a month.</li>
+<li>For a small SaaS: a documented manual process is fine. Know how you'd export and how you'd delete.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2 style="margin-top:0">6. Ongoing hygiene</h2>
+<ul class="check">
+<li>Breach process: detect → assess → notify authority within 72h if risky.</li>
+<li>Records of processing (Art. 30) — a spreadsheet is acceptable at small scale.</li>
+<li>Revisit the list every time you add a processor or data category.</li>
+</ul>
+</div>
+
+<h2>Skip the boilerplate week</h2>
+<p>All the documents in section 3, pre-structured with every must-fill field marked in red, plus the consent banner from section 4 already wired in — that's what our Astro + Tailwind landing kit ships with. <a href="https://haierr1.github.io/">Live demo</a>.</p>
+<a class="cta" href="https://buy.polar.sh/polar_cl_PSs3rzNIlIv4BV02wO6XDocUC8CMdgEL1nybr4761v6">Get the EU-Ready SaaS Landing Kit — €27</a>
+<p><a href="https://github.com/haierr1/saas-landing-kit">Free edition on GitHub</a> (landing page only, no legal pack).</p>
+
+<footer><p>This checklist is general information for builders, not legal advice. Have a lawyer review your setup before launch — every business is different.</p></footer>
+</main>
+</body>
+</html>
